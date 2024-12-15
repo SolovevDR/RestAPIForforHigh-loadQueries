@@ -1,0 +1,57 @@
+version: "2.2"
+
+services:
+  postgres:
+    container_name: db
+    hostname: db
+    build:
+      context: .
+      dockerfile: db.Dockerfile
+    networks:
+      default:
+        aliases:
+        - db.hlq
+
+  backend:
+    container_name: api
+    ports:
+      - "8000:8000"
+    hostname: api
+    build:
+      context: .
+      dockerfile: api.Dockerfile
+    networks:
+      default:
+        aliases:
+        - api.hlq
+
+  worker:
+    container_name: worker
+    hostname: worker
+    build:
+      context: .
+      dockerfile: worker.Dockerfile
+    networks:
+      default:
+        aliases:
+          - worker.hlq
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    hostname: rabbitmq
+    container_name: rabbitmq
+    networks:
+      default:
+        aliases:
+          - rabbitmq.hlq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
+    volumes:
+      - rabbitmq-data:/var/lib/rabbitmq
+
+volumes:
+  rabbitmq-data:
