@@ -8,8 +8,9 @@
 
 ## About
 
-Simple implementation of web applications implemented using the Fast API framework for REST API 
-and RabbitMQ with using framework pika\aio_pika for worker.
+Simple implementation of web applications for high-load tasks implemented using
+the Fast API framework for REST API and RabbitMQ with using framework
+pika\aio_pika.
 
 Using the REST API, the user submits a task to a queue implemented using RabbitMQ. 
 The worker, in turn, retrieves the message from the queue and processes the task. 
